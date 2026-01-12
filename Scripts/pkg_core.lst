@@ -49,11 +49,9 @@ pacman-contrib                                         # for system update check
 parallel                                               # for parallel processing
 jq                                                     # for json processing
 imagemagick                                            # for image processing
-qt5-imageformats                                       # for dolphin image thumbnails
-ffmpegthumbs                                           # for dolphin video thumbnails
-kde-cli-tools                                          # for dolphin file type defaults
 libnotify                                              # for notifications
 noto-fonts-emoji                                       # emoji font
+noto-fonts-cjk                                         # CJK font family
 
 # --------------------------------------------------- // Theming
 nwg-look                                               # gtk configuration tool
@@ -67,11 +65,10 @@ qt6-wayland                                            # wayland support in qt6
 # --------------------------------------------------- // Applications
 firefox                                                # browser
 kitty                                                  # terminal
-dolphin                                                # kde file manager
-ark                                                    # kde file archiver
+nautilus                                               # gnome file manager
+file-roller                                            # gnome archive manager
 unzip                                                  # extracting zip files
 vim                                                    # terminal text editor
-code                                                   # ide text editor
 nwg-displays                                           # monitor management utility
 fzf                                                    # Command-line fuzzy finder
 
