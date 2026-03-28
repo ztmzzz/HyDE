@@ -11,11 +11,7 @@
     # We can call it core packages!
     include = [
         "../dots/zsh.toml",
-        "../dots/fish.toml",
         "../dots/deps.toml",
-        "../dots/electron.toml",
-        "../dots/baloofilerc.toml",
-        "../dots/dolphin.toml",
         "../dots/kitty.toml",
         "../dots/hyprlock.toml",
         "../dots/hypridle.toml",

@@ -51,6 +51,7 @@ lua_quote_to() {
 
 handle_on_lua() {
     ui_state="${XDG_STATE_HOME}/hyde/lua_state/ui.lua"
+    mkdir -p "$(dirname "$ui_state")"
     wallbash_mode="theme"
     if [[ ${enableWallDcol:-0} -eq 1 ]]; then
         wallbash_mode="auto"

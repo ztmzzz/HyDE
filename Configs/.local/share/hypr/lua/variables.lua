@@ -77,17 +77,17 @@ hc.ui.cursor_theme = "Bibata-Modern-Ice"
 hc.ui.cursor_size = 24
 
 -- Fonts
-hc.ui.font = "Cantarell"
-hc.ui.font_size = 10
-hc.ui.document_font = "Cantarell"
-hc.ui.document_font_size = 10
-hc.ui.monospace_font = "CaskaydiaCove Nerd Font Mono"
-hc.ui.monospace_font_size = 9
-hc.ui.notification_font = "Mononoki Nerd Font Mono"
-hc.ui.bar_font = "JetBrainsMono Nerd Font"
-hc.ui.menu_font = "JetBrainsMono Nerd Font"
+hc.ui.font = "Noto Sans"
+hc.ui.font_size = 12
+hc.ui.document_font = "Noto Sans"
+hc.ui.document_font_size = 12
+hc.ui.monospace_font = "JetBrains Mono"
+hc.ui.monospace_font_size = 12
+hc.ui.notification_font = "JetBrains Mono"
+hc.ui.bar_font = "JetBrains Mono"
+hc.ui.menu_font = "JetBrains Mono"
 hc.ui.font_antialiasing = "rgba"
-hc.ui.font_hinting = ""
+hc.ui.font_hinting = "slight"
 
 -- Extra Themes
 hc.ui.code_theme = ""
@@ -96,8 +96,8 @@ hc.ui.sddm_theme = ""
 -- Apps and launchers
 hc.app.quickapps = nil
 hc.app.browser = "hyde-shell open --fall firefox web-browser"
-hc.app.editor = "hyde-shell open --fall code-oss code-editor"
-hc.app.explorer = "hyde-shell open --fall dolphin file-manager"
+hc.app.editor = "gedit"
+hc.app.explorer = "nautilus"
 hc.app.terminal = "hyde-shell app -T"
 hc.app.lockscreen = "hyde-shell lock-session"
 

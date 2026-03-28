@@ -140,6 +140,7 @@ if [[ -r $HYPRLAND_CONFIG ]]; then
 
         if [[ "${HYPRLAND_CONFIG##*.}" == "lua" ]]; then
             print_log -sec "theme" -stat "dump" "hypr.theme to lua"
+            mkdir -p "$XDG_STATE_HOME/hyde/lua_state"
             hyq --dump "$HYDE_THEME_DIR/hypr.theme" --schema "$XDG_DATA_HOME/hypr/schema/hyprland-lua.json" --export lua >"$XDG_STATE_HOME/hyde/lua_state/hypr_theme.lua"
         else
             print_log -sec "theme" -stat "sanitize" "hypr.theme"

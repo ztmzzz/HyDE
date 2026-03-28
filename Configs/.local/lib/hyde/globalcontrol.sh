@@ -412,14 +412,19 @@ toml_write() {
     local group=$2
     local key=$3
     local value=$4
-    if ! kwriteconfig6 --file "$config_file" --group "$group" --key "$key" "$value" >/dev/null; then
-        if ! grep -q "^\[$group\]" "$config_file"; then
-            echo -e "\n[$group]\n$key=$value" >>"$config_file"
-        elif ! grep -q "^$key=" "$config_file"; then
-            sed -i "/^\[$group\]/a $key=$value" "$config_file"
-        else
-            sed -i "/^\[$group\]/,/^\[.*\]/s/^$key=.*/$key=$value/" "$config_file"
-        fi
+    if command -v kwriteconfig6 >/dev/null 2>&1 &&
+        kwriteconfig6 --file "$config_file" --group "$group" --key "$key" "$value" >/dev/null 2>&1; then
+        return 0
+    fi
+
+    mkdir -p "$(dirname "$config_file")"
+    touch "$config_file"
+    if ! grep -q "^\[$group\]" "$config_file"; then
+        echo -e "\n[$group]\n$key=$value" >>"$config_file"
+    elif ! grep -q "^$key=" "$config_file"; then
+        sed -i "/^\[$group\]/a $key=$value" "$config_file"
+    else
+        sed -i "/^\[$group\]/,/^\[.*\]/s/^$key=.*/$key=$value/" "$config_file"
     fi
 }
 extract_thumbnail() {

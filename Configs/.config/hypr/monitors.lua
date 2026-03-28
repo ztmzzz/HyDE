@@ -1,0 +1,2 @@
+-- Managed by nwg-displays. This empty module lets Hyprland start before a
+-- hardware-specific display profile has been saved.

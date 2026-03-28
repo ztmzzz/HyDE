@@ -210,6 +210,7 @@ local M =
         state_name = "shaders",
         waybar_class = "custom-shaders",
         staterc_key = "HYPR_SHADER",
+        default_key = "disable",
         item_ext = ".frag",
         file_pattern = "%.frag$",
         load_item = function(path, base)

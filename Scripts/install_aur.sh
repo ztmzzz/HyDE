@@ -19,29 +19,24 @@ fi
 
 aurhlpr="${1:-yay-bin}"
 
-if [ -d "$HOME/Clone" ]; then
-    print_log -sec "AUR" -stat "exist" "$HOME/Clone directory..."
-    rm -rf "$HOME/Clone/${aurhlpr}"
-else
-    mkdir "$HOME/Clone"
-    echo -e "[Desktop Entry]\nIcon=default-folder-git" >"$HOME/Clone/.directory"
-    print_log -sec "AUR" -stat "created" "$HOME/Clone directory..."
+if [[ "${aurhlpr}" == "paru" || "${aurhlpr}" == "paru-bin" ]]; then
+    if ! grep -q "^[[:space:]]*\\[chaotic-aur\\]" /etc/pacman.conf 2>/dev/null; then
+        print_log -r "AUR" -stat "failed" "Chaotic AUR is required before installing ${aurhlpr} via pacman."
+        print_log -y "AUR" -stat "hint" "Run Scripts/install_pre.sh or enable Chaotic AUR first."
+        exit 1
+    fi
 fi
 
-if pkg_installed git; then
-    git clone "https://aur.archlinux.org/${aurhlpr}.git" "$HOME/Clone/${aurhlpr}"
-else
-    print_log -sec "AUR" -stat "missing" "'git' as dependency..."
+print_log -sec "AUR" -stat "install" "Installing ${aurhlpr} via pacman..."
+if ! pacman -Si "${aurhlpr}" &>/dev/null; then
+    print_log -r "AUR" -stat "failed" "${aurhlpr} not found in pacman repos. Ensure Chaotic AUR is enabled."
     exit 1
 fi
 
-cd "$HOME/Clone/${aurhlpr}" || exit
-# shellcheck disable=SC2154
-if makepkg "${use_default}" -si; then
-    print_log -sec "AUR" -stat "installed" "${aurhlpr} aur helper..."
+if sudo pacman ${use_default:+"$use_default"} -S "${aurhlpr}"; then
+    print_log -sec "AUR" -stat "installed" "${aurhlpr} (pacman)"
     exit 0
 else
-    print_log -r "AUR" -stat "failed" "${aurhlpr} installation failed..."
-    echo "${aurhlpr} installation failed..."
+    print_log -r "AUR" -stat "failed" "${aurhlpr} installation via pacman failed..."
     exit 1
 fi

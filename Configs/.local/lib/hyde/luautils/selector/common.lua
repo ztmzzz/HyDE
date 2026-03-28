@@ -9,6 +9,7 @@
 --       state_name             = "mymodule",                -- state file base name
 --       waybar_class           = "custom-mymodule",         -- class field in waybar JSON output
 --       state_dir              = "/optional/override",      -- default: $XDG_STATE_HOME/hyde/lua_state
+--       default_key            = "disable",                -- fallback when no saved state exists
 --       item_ext               = ".lua",                    -- extension stripped for item names
 --       file_pattern           = "%.lua$",                  -- file pattern matched in directories
 --       load_item              = function(path, base) return { ... } end,
@@ -160,6 +161,10 @@ function M.new(opts)
         return by_key[normalize(name)]
     end
 
+    local function fallback()
+        return (opts.default_key and find(opts.default_key)) or find("default") or ordered[1]
+    end
+
     local function write_state(state_dir, state_file, item)
         if opts.state_writer then
             return opts.state_writer(state_dir, state_file, item)
@@ -198,7 +203,7 @@ function M.new(opts)
                 end
             end
         end
-        return find("default") or ordered[1]
+        return fallback()
     end
 
     local function reload()
@@ -212,10 +217,10 @@ function M.new(opts)
     local function waybar()
         local cur = state.read(sf)
         if not cur then
-            local fallback = find("default") or ordered[1]
-            if fallback then
-                state.write(sd, sf, fallback)
-                cur = state.read(sf) or fallback
+            local fallback_item = fallback()
+            if fallback_item then
+                state.write(sd, sf, fallback_item)
+                cur = state.read(sf) or fallback_item
             else
                 cur = {icon = "", name = "unknown", description = "No items found"}
             end

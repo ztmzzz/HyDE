@@ -91,8 +91,8 @@ P|${HOME}/.config/fish|config.fish|fish
 P|${HOME}/.config/starship|starship.toml|starship
 
 
-S|${HOME}|.zshenv|zsh
-S|${HOME}/.config/zsh|.zshenv|zsh
+P|${HOME}|.zshenv|zsh
+P|${HOME}/.config/zsh|.zshenv|zsh
 S|${HOME}/.config/zsh/conf.d|hyde 00-hyde.zsh|zsh
 S|${HOME}/.config/zsh/functions|error-handlers.zsh|zsh
 S|${HOME}/.config/zsh/functions|fzf.zsh|zsh fzf
@@ -110,16 +110,6 @@ P|${HOME}/.config/zsh|.p10k.zsh|zsh zsh-theme-powerlevel10k
 P|${HOME}/.config/vim|vimrc|vim
 S|${HOME}/.config/vim/colors|wallbash.vim|vim
 S|${HOME}/.config/vim|hyde.vim|vim
-
- File Explorer 
-P|${HOME}/.local/state|dolphinstaterc|dolphin
-P|${HOME}/.config|baloofilerc|dolphin
-S|${HOME}/.config/menus|applications.menu|dolphin
-S|${HOME}/.config|dolphinrc|dolphin
-S|${HOME}/.config|kdeglobals|dolphin
-S|${HOME}/.local/share/kio/servicemenus|hydewallpaper.desktop|dolphin
-S|${HOME}/.local/share/kxmlgui5|dolphin|dolphin
-S|${HOME}/.local/share|dolphin|dolphin
 
  Input 
 P|${HOME}/.config|libinput-gestures.conf|libinput-gestures

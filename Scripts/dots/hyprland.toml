@@ -15,13 +15,8 @@ target_root = "${XDG_DATA_HOME}/hypr/"
 paths = ["lua", "hyde.lua", "schema/hyprland-lua.json"]
 ignored_paths = ["*.conf", ".vscode"]
 
-# [[hyprland.files]]
-# action = "preserve"
-# source_root = "Configs/.local/state/hyde"
-# target_root = "${XDG_STATE_HOME}/hyde/"
-# paths = ["lua_state/*.lua"]
 [[hyprland.files]]
 action = "preserve"
 source_root = "Configs/.config/hypr"
 target_root = "${XDG_CONFIG_HOME}/hypr/"
-paths = ["hyprland.lua"]
+paths = ["hyprland.lua", "monitors.lua"]

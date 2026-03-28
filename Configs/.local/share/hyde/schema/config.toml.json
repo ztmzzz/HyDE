@@ -1100,47 +1100,47 @@
                             "type": "integer"
                         },
                         "font": {
-                            "default": "Cantarell",
+                            "default": "Noto Sans",
                             "description": "Default font for HyDE UI.",
                             "type": "string"
                         },
                         "font_size": {
-                            "default": 10,
+                            "default": 12,
                             "description": "Font size for HyDE UI.",
                             "type": "integer"
                         },
                         "document_font": {
-                            "default": "Cantarell",
+                            "default": "Noto Sans",
                             "description": "Document font used by HyDE UI.",
                             "type": "string"
                         },
                         "document_font_size": {
-                            "default": 10,
+                            "default": 12,
                             "description": "Document font size for HyDE UI.",
                             "type": "integer"
                         },
                         "monospace_font": {
-                            "default": "CaskaydiaCove Nerd Font Mono",
+                            "default": "JetBrains Mono",
                             "description": "Monospace font for HyDE UI.",
                             "type": "string"
                         },
                         "monospace_font_size": {
-                            "default": 9,
+                            "default": 12,
                             "description": "Monospace font size for HyDE UI.",
                             "type": "integer"
                         },
                         "notification_font": {
-                            "default": "Mononoki Nerd Font Mono",
+                            "default": "JetBrains Mono",
                             "description": "Notification font used by HyDE.",
                             "type": "string"
                         },
                         "bar_font": {
-                            "default": "JetBrainsMono Nerd Font",
+                            "default": "JetBrains Mono",
                             "description": "Bar font used by HyDE.",
                             "type": "string"
                         },
                         "menu_font": {
-                            "default": "JetBrainsMono Nerd Font",
+                            "default": "JetBrains Mono",
                             "description": "Menu font used by HyDE.",
                             "type": "string"
                         },
@@ -1150,7 +1150,7 @@
                             "type": "string"
                         },
                         "font_hinting": {
-                            "default": "",
+                            "default": "slight",
                             "description": "Font hinting mode for HyDE UI.",
                             "type": "string"
                         },
@@ -1181,12 +1181,12 @@
                             "type": "string"
                         },
                         "editor": {
-                            "default": "hyde-shell open --fall code-oss code-editor",
+                            "default": "gedit",
                             "description": "Editor launcher command.",
                             "type": "string"
                         },
                         "explorer": {
-                            "default": "hyde-shell open --fall dolphin file-manager",
+                            "default": "nautilus",
                             "description": "File manager launcher command.",
                             "type": "string"
                         },
