@@ -84,25 +84,8 @@ owner = "ryanoasis"
 description = "font for programming and code review"
 action = "sync"
 
-# *  We only handle a small subset of CJK fonts via NotoSansCJK
-[font-noto-sans-cjk-ttc]
-source = "https://github.com/notofonts/noto-cjk/blob/main/Sans/OTC/NotoSansCJK-Regular.ttc"
-version = "2.003"
-owner = "notofonts"
-description = "Basic CJK support via NotoSansCJK; install full cjk fonts system-wide for complete coverage."
-
-[[font-noto-sans-cjk-ttc.files]]
-target_root = "${XDG_DATA_HOME}/fonts/NotoSansCJK"
-paths = "."
-action = "sync"
-
-[[font-noto-sans-cjk-ttc.files]]
-target_root = "/usr/local/share/fonts/NotoSansCJK"
-paths = "."
-action = "tarball"
 #*
 #! MaterialDesingIcons are now built into the Nerd Fonts  no need to download them
 # TODO: Add systemwide installation
-# * font-noto-sans-cjk-ttc
 # * cursor-bibata-modern-ice
 # * hyprcursor-bibata-modern-ice

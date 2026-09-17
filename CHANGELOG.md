@@ -8,6 +8,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## Unreleased
 
+### Personal desktop customization
+- Preserve Noto Sans and JetBrains Mono fonts, Simplified Chinese fallback,
+  HiDPI scaling, personal window rules, keybindings, and idle/lock settings.
+- Keep GNOME application defaults, package-managed CJK fonts, and preserved
+  shell environment files; follow upstream EDITOR and dconf preservation.
+- Install the AUR helper through pacman/Chaotic AUR with upstream health
+  checks, and keep Zsh in the extra group.
+- Retain logical-resolution logout sizing and font overrides alongside the
+  upstream Lua theme pipeline, shader defaults, and deployment fixes.
+- Keep personal regression checks outside the upstream tests submodule.
+
+### Fixed
+- Personal integration: retain desktop font overrides with upstream safe theme parsing; backport the dev weather location-clock fix without changing the forecast layout.
+
 ### Added
 - Docs: link to Lua migration guide in `README.md` and `MIGRATION-LUA.md`
 - Waybar: add VSCodium and Chromium icon rules to window module

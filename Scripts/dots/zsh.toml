@@ -6,13 +6,13 @@
     pacman = [ "zsh", "starship" ]
 
 [[zsh.files]]
-    action      = "sync"
+    action      = "preserve"
     paths       = ".zshenv"
     source_root = "Configs"
     target_root = "${HOME}"
 
 [[zsh.files]]
-    action      = "sync"
+    action      = "preserve"
     paths       = [ ".zshenv" ]
     source_root = "Configs/.config/zsh"
     target_root = "${XDG_CONFIG_HOME}/zsh"

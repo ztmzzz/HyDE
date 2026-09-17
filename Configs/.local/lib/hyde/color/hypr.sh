@@ -42,6 +42,21 @@ load_hypr_vars "$HYDE_THEME_DIR/hypr.theme"
 hypr_state_file="${XDG_STATE_HOME:-$HOME/.local/state}/hyde/hyprland.conf"
 [[ -f ${hypr_state_file} ]] && load_hypr_vars "$hypr_state_file"
 
+# config.toml is flattened to DESKTOP_UI_* by `hyde-shell config`. Prefer its
+# documented user values over theme variables, while retaining the latter as a
+# fallback for users who have not configured a field.
+__FONT=${DESKTOP_UI_FONT:-${__FONT:-}}
+__FONT_SIZE=${DESKTOP_UI_FONT_SIZE:-${__FONT_SIZE:-}}
+__DOCUMENT_FONT=${DESKTOP_UI_DOCUMENT_FONT:-${__DOCUMENT_FONT:-}}
+__DOCUMENT_FONT_SIZE=${DESKTOP_UI_DOCUMENT_FONT_SIZE:-${__DOCUMENT_FONT_SIZE:-}}
+__MONOSPACE_FONT=${DESKTOP_UI_MONOSPACE_FONT:-${__MONOSPACE_FONT:-}}
+__MONOSPACE_FONT_SIZE=${DESKTOP_UI_MONOSPACE_FONT_SIZE:-${__MONOSPACE_FONT_SIZE:-}}
+__NOTIFICATION_FONT=${DESKTOP_UI_NOTIFICATION_FONT:-${__NOTIFICATION_FONT:-}}
+__BAR_FONT=${DESKTOP_UI_BAR_FONT:-${__BAR_FONT:-}}
+__MENU_FONT=${DESKTOP_UI_MENU_FONT:-${__MENU_FONT:-}}
+__FONT_ANTIALIASING=${DESKTOP_UI_FONT_ANTIALIASING:-${__FONT_ANTIALIASING:-}}
+__FONT_HINTING=${DESKTOP_UI_FONT_HINTING:-${__FONT_HINTING:-}}
+
 # This is for older themes that do not define the above variables
 [[ -z ${__GTK_THEME} ]] && __GTK_THEME=$(get_hyprConf "GTK_THEME")
 [[ -z ${__COLOR_SCHEME} ]] && __COLOR_SCHEME=$(get_hyprConf "COLOR_SCHEME")
@@ -75,6 +90,7 @@ lua_quote_to() {
 
 handle_on_lua() {
     ui_state="${XDG_STATE_HOME}/hyde/lua_state/ui.lua"
+    mkdir -p "$(dirname "$ui_state")"
     wallbash_mode="theme"
     if [[ ${enableWallDcol:-0} -eq 1 ]]; then
         wallbash_mode="auto"
@@ -87,6 +103,7 @@ handle_on_lua() {
     local _hyde_theme _gtk_theme _icon_theme _color_scheme
     local _cursor_theme _font _document_font _monospace_font
     local _notification_font _bar_font _menu_font
+    local _font_antialiasing _font_hinting
     local _code_theme _sddm_theme _wallbash_mode
 
     lua_quote_to _hyde_theme "${HYDE_THEME}"
@@ -100,6 +117,8 @@ handle_on_lua() {
     lua_quote_to _notification_font "${__NOTIFICATION_FONT:-${__FONT}}"
     lua_quote_to _bar_font "${__BAR_FONT:-${__FONT}}"
     lua_quote_to _menu_font "${__MENU_FONT:-${__FONT}}"
+    lua_quote_to _font_antialiasing "${__FONT_ANTIALIASING}"
+    lua_quote_to _font_hinting "${__FONT_HINTING}"
     lua_quote_to _code_theme "${__CODE_THEME}"
     lua_quote_to _sddm_theme "${__SDDM_THEME}"
     lua_quote_to _wallbash_mode "${wallbash_mode}"
@@ -129,6 +148,8 @@ local ui_state = {
         notification_font = "$_notification_font",
         bar_font = "$_bar_font",
         menu_font = "$_menu_font",
+        font_antialiasing = "$_font_antialiasing",
+        font_hinting = "$_font_hinting",
 
         -- Extra Themes
         code_theme = "$_code_theme",

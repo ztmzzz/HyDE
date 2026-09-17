@@ -2,3 +2,43 @@
 # Environment variables should be on top
 # Updated config.toml file can be found at $HOME/.local/share/hyde/config.toml
 "$schema" = "https://raw.githubusercontent.com/HyDE-Project/HyDE/refs/heads/master/Configs/.local/share/hyde/schema/config.toml.json"
+
+[battery.notify]
+dock = false
+
+[brightness]
+notify = false
+
+[desktop.ui]
+font = "Noto Sans"
+font_size = 12
+document_font = "Noto Sans"
+document_font_size = 12
+monospace_font = "JetBrains Mono"
+monospace_font_size = 12
+notification_font = "JetBrains Mono"
+bar_font = "JetBrains Mono"
+menu_font = "JetBrains Mono"
+font_hinting = "slight"
+
+[desktop.app]
+editor = "gedit"
+explorer = "nautilus"
+
+[notification]
+font = "JetBrains Mono"
+font_size = 12
+
+[rofi.bookmarks]
+font = "JetBrains Mono"
+
+[rofi.websearch]
+font = "JetBrains Mono"
+
+[volume]
+steps = 1
+
+[waybar]
+font = "JetBrains Mono"
+icon_size = 12
+scale = 12

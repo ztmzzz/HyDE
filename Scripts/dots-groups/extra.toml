@@ -9,13 +9,11 @@
     version      = "0.1.0"
     # dots = ["kitty", "hyprland"] # List of dots to be used in the configuration file
     # We can call it core packages!
-    # The shells live in their own group. Listing both here installed both and
-    # deployed both, whichever one the installer was asked for.
+    # Personal desktop always includes Zsh; the installer may also configure
+    # another shell through its dedicated shell group.
     include = [
+        "../dots/zsh.toml",
         "../dots/deps.toml",
-        "../dots/electron.toml",
-        "../dots/baloofilerc.toml",
-        "../dots/dolphin.toml",
         "../dots/kitty.toml",
         "../dots/hyprlock.toml",
         "../dots/hypridle.toml",

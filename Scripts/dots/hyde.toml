@@ -66,6 +66,12 @@ paths = "config.toml"
 
 [[hyde.files]]
 action = "preserve"
+source_root = "Configs/.config/fontconfig"
+target_root = "${XDG_CONFIG_HOME}/fontconfig"
+paths = "fonts.conf"
+
+[[hyde.files]]
+action = "preserve"
 source_root = "Configs/.config/pypr"
 target_root = "${XDG_CONFIG_HOME}/pypr"
 paths = "config.toml"

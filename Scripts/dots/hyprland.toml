@@ -24,7 +24,7 @@ ignored_paths = ["*.conf", ".vscode"]
 action = "preserve"
 source_root = "Configs/.config/hypr"
 target_root = "${XDG_CONFIG_HOME}/hypr/"
-paths = ["hyprland.lua"]
+paths = ["hyprland.lua", "monitors.lua"]
 
 # The shader selector reads this directory first and offers nothing when it is
 # absent.

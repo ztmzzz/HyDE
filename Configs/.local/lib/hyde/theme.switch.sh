@@ -73,6 +73,21 @@ load_hypr_variables() {
     MENU_FONT=${__MENU_FONT:-$MENU_FONT}
     NOTIFICATION_FONT=${__NOTIFICATION_FONT:-$NOTIFICATION_FONT}
 }
+load_desktop_ui_variables() {
+    # config.toml is the documented user configuration. Its flattened
+    # DESKTOP_UI_* values must win over theme and legacy hyprlang variables.
+    FONT=${DESKTOP_UI_FONT:-$FONT}
+    FONT_SIZE=${DESKTOP_UI_FONT_SIZE:-$FONT_SIZE}
+    DOCUMENT_FONT=${DESKTOP_UI_DOCUMENT_FONT:-$DOCUMENT_FONT}
+    DOCUMENT_FONT_SIZE=${DESKTOP_UI_DOCUMENT_FONT_SIZE:-$DOCUMENT_FONT_SIZE}
+    MONOSPACE_FONT=${DESKTOP_UI_MONOSPACE_FONT:-$MONOSPACE_FONT}
+    MONOSPACE_FONT_SIZE=${DESKTOP_UI_MONOSPACE_FONT_SIZE:-$MONOSPACE_FONT_SIZE}
+    NOTIFICATION_FONT=${DESKTOP_UI_NOTIFICATION_FONT:-$NOTIFICATION_FONT}
+    BAR_FONT=${DESKTOP_UI_BAR_FONT:-$BAR_FONT}
+    MENU_FONT=${DESKTOP_UI_MENU_FONT:-$MENU_FONT}
+    FONT_ANTIALIASING=${DESKTOP_UI_FONT_ANTIALIASING:-${FONT_ANTIALIASING:-}}
+    FONT_HINTING=${DESKTOP_UI_FONT_HINTING:-${FONT_HINTING:-}}
+}
 quiet=false
 while getopts "qnps:" option; do
     case $option in
@@ -110,6 +125,7 @@ if [[ -r $HYPRLAND_CONFIG ]]; then
     fi
     if [[ -r "$HYDE_THEME_DIR/hypr.theme" ]]; then
         print_log -sec "theme" -stat "dump" "hypr.theme to lua"
+        mkdir -p "$XDG_STATE_HOME/hyde/lua_state"
         theme_state="$XDG_STATE_HOME/hyde/lua_state/hypr_theme.lua"
         theme_buffer="$(mktemp)"
         theme_dump_err="$(mktemp)"
@@ -141,6 +157,7 @@ if [[ -r $HYPRLAND_CONFIG ]]; then
     fi
     load_hypr_variables "$HYDE_THEME_DIR/hypr.theme"                               # ? loads the theme vars
     load_hypr_variables "${XDG_STATE_HOME:-$HOME/.local/state}/hyde/hyprland.conf" # ? loads the parsable user config vars, should override theme vars
+    load_desktop_ui_variables
 fi
 show_theme_status
 if ! dconf write /org/gnome/desktop/interface/icon-theme "'$ICON_THEME'"; then
@@ -183,6 +200,22 @@ toml_write "$confDir/gtk-3.0/settings.ini" "Settings" "gtk-icon-theme-name" "$IC
 toml_write "$confDir/gtk-3.0/settings.ini" "Settings" "gtk-cursor-theme-name" "$CURSOR_THEME"
 toml_write "$confDir/gtk-3.0/settings.ini" "Settings" "gtk-cursor-theme-size" "$CURSOR_SIZE"
 toml_write "$confDir/gtk-3.0/settings.ini" "Settings" "gtk-font-name" "$GTK3_FONT $GTK3_FONT_SIZE"
+if [ -n "${FONT_HINTING:-}" ]; then
+    case "$FONT_HINTING" in
+    none | hintnone)
+        toml_write "$confDir/gtk-3.0/settings.ini" "Settings" "gtk-xft-hinting" "0"
+        toml_write "$confDir/gtk-3.0/settings.ini" "Settings" "gtk-xft-hintstyle" "hintnone"
+        ;;
+    slight | medium | full)
+        toml_write "$confDir/gtk-3.0/settings.ini" "Settings" "gtk-xft-hinting" "1"
+        toml_write "$confDir/gtk-3.0/settings.ini" "Settings" "gtk-xft-hintstyle" "hint$FONT_HINTING"
+        ;;
+    hintslight | hintmedium | hintfull)
+        toml_write "$confDir/gtk-3.0/settings.ini" "Settings" "gtk-xft-hinting" "1"
+        toml_write "$confDir/gtk-3.0/settings.ini" "Settings" "gtk-xft-hintstyle" "$FONT_HINTING"
+        ;;
+    esac
+fi
 if [ -d "$themesDir/$GTK_THEME/gtk-4.0" ]; then
     gtk4Theme="$GTK_THEME"
 else

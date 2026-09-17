@@ -96,8 +96,8 @@ hc.ui.sddm_theme = ""
 -- Apps and launchers
 hc.app.quickapps = nil
 hc.app.browser = "hyde-shell open --fall firefox web-browser"
-hc.app.editor = "hyde-shell open --fall code-oss code-editor"
-hc.app.explorer = "hyde-shell open --fall dolphin file-manager"
+hc.app.editor = "gedit"
+hc.app.explorer = "nautilus"
 hc.app.terminal = "hyde-shell app -T"
 hc.app.lockscreen = "hyde-shell lock-session"
 

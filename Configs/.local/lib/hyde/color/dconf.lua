@@ -26,7 +26,8 @@ local ok, ui = pcall(dofile, xdg.state .. "/hyde/lua_state/ui.lua")
 if ok and ui then lua_u = ui.ui end
 
 local function _r(key)
-    return _s(lua_u[key])
+    return _s(os.getenv("DESKTOP_UI_" .. key:upper()))
+        or _s(lua_u[key])
         or _s(os.getenv("__" .. key:upper()))
         or _s(os.getenv(key:upper()))
 end
