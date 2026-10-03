@@ -35,6 +35,7 @@ class CurrentCondition(TypedDict):
     windspeedKmph: str
     windspeedMiles: str
     humidity: str
+    localObsDateTime: str
 
 
 class HourlyPoint(TypedDict):
@@ -249,6 +250,22 @@ def get_timestamp(time_str: str) -> str:
         return time_str
 
 
+def get_location_hour(weather: WttrResponse, fallback: int) -> int:
+    """Current hour (0-23) at the weather location, from `localObsDateTime`
+    ("2026-09-30 08:15 PM", always 12-hour English). wttr.in's hourly slots use
+    that clock, so the first-day cutoff must too, not the host's (#2159).
+    Returns `fallback` (the host hour) when the field is missing or malformed."""
+    try:
+        _, clock, suffix = weather["current_condition"][0]["localObsDateTime"].split()
+        h, m = (int(x) for x in clock.split(":"))
+        suffix = suffix.upper()
+        if suffix not in ("AM", "PM") or not 1 <= h <= 12 or not 0 <= m < 60:
+            return fallback
+        return h % 12 + (12 if suffix == "PM" else 0)
+    except (KeyError, IndexError, TypeError, ValueError, AttributeError):
+        return fallback
+
+
 def format_chances(hour: HourlyPoint) -> str:
     """Formats the chance of various weather events for a specific hour."""
     chances: dict[str, str] = {
@@ -451,6 +468,7 @@ def main() -> None:
         data["tooltip"] += f"Wind: {get_wind_speed(current_weather)}\n"
         data["tooltip"] += f"Humidity: {current_weather['humidity']}%\n"
     # Get the weather forecast for the next 2 days
+    location_hour = get_location_hour(weather, datetime.now().hour)
     for i in range(forecast_days):
         day_instance = weather["weather"][i]
         data["tooltip"] += "\n<b>"
@@ -464,7 +482,7 @@ def main() -> None:
         # Get the hourly forecast for the day
         for hour in day_instance["hourly"]:
             if i == 0:
-                if int(format_time(hour["time"])) < datetime.now().hour - 2:
+                if int(format_time(hour["time"])) < location_hour - 2:
                     continue
             data["tooltip"] += (
                 f"{format_time(hour['time'])} {get_weather_icon(hour)} {format_temp(get_temperature_hour(hour))} {get_description(hour)}, {format_chances(hour)}\n"
