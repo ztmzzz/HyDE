@@ -598,7 +598,11 @@ def run_waybar():
         subprocess.run([
             "systemd-run", "--user", f"--unit={UNIT_NAME}", "--slice=app-graphical.slice",
             "--property=Type=exec", "--property=ExitType=cgroup",
-            "--property=PartOf=graphical-session.target", "--quiet", "--", "waybar"
+            "--property=PartOf=graphical-session.target",
+            # Without --collect a unit that lands in `failed` (e.g.
+            # start-limit-hit) keeps the name, so this same systemd-run call
+            # fails next time with "Unit already exists" (HyDE-Project/HyDE#2160).
+            "--collect", "--quiet", "--", "waybar"
         ])
         logger.debug(f"Launched {UNIT_NAME} via systemd")
     else:
@@ -1230,7 +1234,10 @@ def watch_waybar():
             "systemd-run", "--user", f"--unit={UNIT_NAME}", "--slice=app-graphical.slice",
             "--property=Type=exec", "--property=ExitType=cgroup", "--property=Restart=always",
             "--property=RestartSec=1", "--property=PartOf=graphical-session.target",
-            "--quiet", "--", "waybar"
+            # See the matching --collect note in run_waybar() (HyDE-Project/HyDE#2160):
+            # a unit that hits start-limit-hit must free its name immediately, or the
+            # next watch_waybar()/run_waybar() call fails with "Unit already exists".
+            "--collect", "--quiet", "--", "waybar"
         ])
         logger.debug(f"Launched {UNIT_NAME} with Restart=always")
     else:
