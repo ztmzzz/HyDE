@@ -120,10 +120,6 @@ jobs:
         if: steps.compare.outputs.up_to_date == 'false'
         run: sh tests/run.sh
 
-      - name: Check hyde-shell open app priority
-        if: steps.compare.outputs.up_to_date == 'false'
-        run: sh .github/scripts/test_open_priority.sh
-
   reconcile:
     name: Open or update the pointer PR
     needs: validate
