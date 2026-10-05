@@ -87,12 +87,40 @@ jobs:
           fi
           echo "current=$current" >>"$GITHUB_OUTPUT"
           echo "latest=$latest" >>"$GITHUB_OUTPUT"
+          # A mismatch isn't necessarily "behind": a feature branch can merge
+          # into dev carrying a newer tests commit before that same commit
+          # reaches tests/main itself (#2175 did, moments before tests/main
+          # caught up), which otherwise looks exactly like "needs a bump" and
+          # moves the pointer backward (closed as wrong in #2179). Only bump
+          # when $current is a genuine, strict ancestor of $latest -- every
+          # other case (equal, $current ahead, diverged, or the fetch below
+          # failing) leaves the pointer alone instead of guessing, since
+          # guessing "needs a bump" is the unsafe default that caused #2179
+          # (CodeRabbit catch on #2181: that includes the fetch-failure case
+          # too, not just a plain direction mismatch).
           if [ "$current" = "$latest" ]; then
             echo "up_to_date=true" >>"$GITHUB_OUTPUT"
             echo "tests already points at $TESTS_BRANCH ($latest)"
-          else
+          elif ! git fetch --quiet "https://github.com/$TESTS_REPO.git" "$current" "$latest"; then
+            # Neither "true" nor "false": reconcile's "close an obsolete
+            # pointer PR" step is gated on up_to_date == 'true', so that
+            # value must mean "confirmed current", not "couldn't tell" --
+            # otherwise a transient fetch failure here could close and
+            # delete a still-valid, pending pointer PR (CodeRabbit catch on
+            # #2181). "unknown" matches neither gate, so every reconcile
+            # step sits out this run and the next trigger re-evaluates.
+            echo "::warning::could not fetch $current and/or $latest from $TESTS_REPO to check ancestry; leaving the pointer and any pending PR as-is for now"
+            echo "up_to_date=unknown" >>"$GITHUB_OUTPUT"
+          elif git merge-base --is-ancestor "$current" "$latest"; then
             echo "up_to_date=false" >>"$GITHUB_OUTPUT"
             echo "tests points at $current, $TESTS_BRANCH is $latest"
+          else
+            echo "up_to_date=true" >>"$GITHUB_OUTPUT"
+            if git merge-base --is-ancestor "$latest" "$current"; then
+              echo "tests already points at $current, which is ahead of $TESTS_BRANCH ($latest)"
+            else
+              echo "::warning::tests pointer ($current) and $TESTS_BRANCH ($latest) have diverged; leaving the pointer as-is"
+            fi
           fi
 
       - name: Fetch the new tests commit
